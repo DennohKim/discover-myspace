@@ -6,8 +6,8 @@ import Button from "../Button";
 
 interface ModalProps {
   isOpen?: boolean;
-  onClose?: () => void;
-  onSubmit?: () => void;
+  onClose: () => void;
+  onSubmit: () => void;
   title?: string;
   body?: React.ReactElement;
   footer?: React.ReactElement;
@@ -94,7 +94,7 @@ if(!isOpen) {
               {/* Body */}
               <div className="relative p-6 flex-auto ">{body}</div>
               {/* Footer */}
-              <div className="flex fle-col gap-6 p-6">
+              <div className="flex flex-col gap-6 p-6">
                 <div className="flex flex-row items-center gap-4 w-full ">
                   {secondaryAction && secondaryActionLabel && (
                     <Button
@@ -110,6 +110,7 @@ if(!isOpen) {
                     onClick={handleSubmit}
                   />
                 </div>
+                {footer}
               </div>
             </div>
           </div>

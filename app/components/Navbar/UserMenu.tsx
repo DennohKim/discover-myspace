@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { AiOutlineMenu } from "react-icons/ai";
 import Avatar from "../Avatar";
@@ -8,27 +8,36 @@ import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import { signOut } from "next-auth/react";
 import { SafeUser } from "@/app/types";
-
+import useRentModal from "@/app/hooks/useRentModal";
 
 interface UserMenuProps {
-currentUser?: SafeUser | null;
+  currentUser?: SafeUser | null;
 }
 
-const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
-
+const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
-    const [ isOpen, setIsOpen ] = useState(false)
+  const rentModal = useRentModal();
 
-    const toggleOpen = useCallback(() => {
-        setIsOpen((prev) => !prev)
+  const [isOpen, setIsOpen] = useState(false);
 
-    }, [])
+  const toggleOpen = useCallback(() => {
+    setIsOpen((prev) => !prev);
+  }, []);
+
+  const onRent = useCallback(() => {
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
+    //Open Rent Modal
+    rentModal.onOpen();
+  }, [currentUser, loginModal, rentModal]);
+
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
         <div
-          onClick={() => {}}
+          onClick={onRent}
           className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
         >
           Airbnb your home
@@ -53,7 +62,7 @@ const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                 <MenuItem onClick={() => {}} label="My favourite" />
                 <MenuItem onClick={() => {}} label="My reservations" />
                 <MenuItem onClick={() => {}} label="My properties" />
-                <MenuItem onClick={() => {}} label="Airbnb my home" />
+                <MenuItem onClick={rentModal.onOpen} label="Airbnb my home" />
                 <hr />
                 <MenuItem onClick={() => signOut()} label="Logout" />
               </>
@@ -68,6 +77,6 @@ const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
       )}
     </div>
   );
-}
+};
 
 export default UserMenu;

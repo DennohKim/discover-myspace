@@ -31,14 +31,13 @@ export default async function RootLayout({
     <html lang="en">
       <body className={font.className}>
         <ClientOnly>
-          <ToasterProvider/>
-          <LoginModal/>
-          <RentModal/>
-          <RegisterModal/>
+          <ToasterProvider />
+          <LoginModal />
+          <RentModal />
+          <RegisterModal />
           <Navbar currentUser={currentUser} />
         </ClientOnly>
-
-        {children}
+        <div className="pb-20 pt-28">{children}</div>
       </body>
     </html>
   );
